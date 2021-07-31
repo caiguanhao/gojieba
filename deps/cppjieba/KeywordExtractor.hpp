@@ -4,6 +4,9 @@
 #include <cmath>
 #include <set>
 #include "MixSegment.hpp"
+#include "memstream.hpp"
+#include "dict/idf.h"
+#include "dict/stop_words.h"
 
 namespace cppjieba {
 
@@ -93,8 +96,7 @@ class KeywordExtractor {
   }
  private:
   void LoadIdfDict(const string& idfPath) {
-    ifstream ifs(idfPath.c_str());
-    XCHECK(ifs.is_open()) << "open " << idfPath << " failed";
+    memstream ifs(dict_idf_utf8, dict_idf_utf8_len);
     string line ;
     vector<string> buf;
     double idf = 0.0;
@@ -122,8 +124,7 @@ class KeywordExtractor {
     assert(idfAverage_ > 0.0);
   }
   void LoadStopWordDict(const string& filePath) {
-    ifstream ifs(filePath.c_str());
-    XCHECK(ifs.is_open()) << "open " << filePath << " failed";
+    memstream ifs(dict_stop_words_utf8, dict_stop_words_utf8_len);
     string line ;
     while (getline(ifs, line)) {
       stopWords_.insert(line);

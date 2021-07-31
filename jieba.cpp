@@ -36,12 +36,8 @@ static struct CWordWeight* ConvertWords(const std::vector<std::pair<std::string,
   return res;
 }
 
-Jieba NewJieba(const char* dict_path,
-      const char* hmm_path, 
-      const char* user_dict,
-      const char* idf_path,
-      const char* stop_words_path) {
-  return (Jieba)(new cppjieba::Jieba(dict_path, hmm_path, user_dict, idf_path, stop_words_path));
+Jieba NewJieba(const char* user_dict) {
+  return (Jieba)(new cppjieba::Jieba(user_dict));
 }
 
 void FreeJieba(Jieba x) {

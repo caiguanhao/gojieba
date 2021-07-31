@@ -2,6 +2,7 @@ package gojieba
 
 import (
 	"fmt"
+	"io/ioutil"
 	"reflect"
 	"strings"
 	"testing"
@@ -12,7 +13,8 @@ func ExampleJieba() {
 	var words []string
 	use_hmm := true
 	//equals with x := NewJieba(DICT_PATH, HMM_PATH, USER_DICT_PATH)
-	x := NewJieba()
+	userDict, _ := ioutil.ReadFile("./dict/user.dict.utf8")
+	x := NewJieba(string(userDict))
 	defer x.Free()
 
 	s = "我来到北京清华大学"

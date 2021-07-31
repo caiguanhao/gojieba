@@ -8,19 +8,15 @@ namespace cppjieba {
 
 class Jieba {
  public:
-  Jieba(const string& dict_path, 
-        const string& model_path,
-        const string& user_dict_path, 
-        const string& idfPath, 
-        const string& stopWordPath) 
-    : dict_trie_(dict_path, user_dict_path),
-      model_(model_path),
+  Jieba(const string& user_dict_path) 
+    : dict_trie_("", user_dict_path),
+      model_(""),
       mp_seg_(&dict_trie_),
       hmm_seg_(&model_),
       mix_seg_(&dict_trie_, &model_),
       full_seg_(&dict_trie_),
       query_seg_(&dict_trie_, &model_),
-      extractor(&dict_trie_, &model_, idfPath, stopWordPath) {
+      extractor(&dict_trie_, &model_, "", "") {
   }
   ~Jieba() {
   }

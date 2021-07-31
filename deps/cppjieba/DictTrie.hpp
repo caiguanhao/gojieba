@@ -14,6 +14,8 @@
 #include "limonp/Logging.hpp"
 #include "Unicode.hpp"
 #include "Trie.hpp"
+#include "memstream.hpp"
+#include "dict/jieba.dict.h"
 
 namespace cppjieba {
 
@@ -139,19 +141,14 @@ class DictTrie {
   }
 
   void LoadUserDict(const string& filePaths) {
-    vector<string> files = limonp::Split(filePaths, "|;");
     size_t lineno = 0;
-    for (size_t i = 0; i < files.size(); i++) {
-      ifstream ifs(files[i].c_str());
-      XCHECK(ifs.is_open()) << "open " << files[i] << " failed"; 
-      string line;
-      
-      for (; getline(ifs, line); lineno++) {
-        if (line.size() == 0) {
-          continue;
-        }
-        InserUserDictNode(line);
+    stringstream ifs(filePaths);
+    string line;
+    for (; getline(ifs, line); lineno++) {
+      if (line.size() == 0) {
+        continue;
       }
+      InserUserDictNode(line);
     }
   }
 
@@ -199,8 +196,7 @@ class DictTrie {
   }
 
   void LoadDict(const string& filePath) {
-    ifstream ifs(filePath.c_str());
-    XCHECK(ifs.is_open()) << "open " << filePath << " failed.";
+    memstream ifs(dict_jieba_dict_utf8, dict_jieba_dict_utf8_len);
     string line;
     vector<string> buf;
 

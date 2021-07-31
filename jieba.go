@@ -6,7 +6,10 @@ package gojieba
 #include "jieba.h"
 */
 import "C"
-import "unsafe"
+import (
+	"strings"
+	"unsafe"
+)
 
 type TokenizeMode int
 
@@ -25,22 +28,11 @@ type Jieba struct {
 	jieba C.Jieba
 }
 
-func NewJieba(paths ...string) *Jieba {
-	dictpaths := getDictPaths(paths...)
-	dpath, hpath, upath, ipath, spath := C.CString(dictpaths[0]), C.CString(dictpaths[1]), C.CString(dictpaths[2]), C.CString(dictpaths[3]), C.CString(dictpaths[4])
-	defer C.free(unsafe.Pointer(dpath))
-	defer C.free(unsafe.Pointer(hpath))
-	defer C.free(unsafe.Pointer(upath))
-	defer C.free(unsafe.Pointer(ipath))
-	defer C.free(unsafe.Pointer(spath))
+func NewJieba(userDicts ...string) *Jieba {
+	userDict := C.CString(strings.Join(userDicts, "\n"))
+	defer C.free(unsafe.Pointer(userDict))
 	return &Jieba{
-		C.NewJieba(
-			dpath,
-			hpath,
-			upath,
-			ipath,
-			spath,
-		),
+		C.NewJieba(userDict),
 	}
 }
 

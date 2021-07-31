@@ -3,6 +3,8 @@
 
 #include "limonp/StringUtil.hpp"
 #include "Trie.hpp"
+#include "memstream.hpp"
+#include "dict/hmm_model.h"
 
 namespace cppjieba {
 
@@ -32,8 +34,7 @@ struct HMMModel {
   ~HMMModel() {
   }
   void LoadModel(const string& filePath) {
-    ifstream ifile(filePath.c_str());
-    XCHECK(ifile.is_open()) << "open " << filePath << " failed";
+    memstream ifile(dict_hmm_model_utf8, dict_hmm_model_utf8_len);
     string line;
     vector<string> tmp;
     vector<string> tmp2;
@@ -79,7 +80,7 @@ struct HMMModel {
     }
     return cit->second;
   }
-  bool GetLine(ifstream& ifile, string& line) {
+  bool GetLine(memstream& ifile, string& line) {
     while (getline(ifile, line)) {
       Trim(line);
       if (line.empty()) {

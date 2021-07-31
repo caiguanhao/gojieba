@@ -16,11 +16,7 @@ typedef enum {
   SearchMode = 1,
 } TokenizeMode;
 
-Jieba NewJieba(const char* dict_path,
-      const char* hmm_path, 
-      const char* user_dict,
-      const char* idf_path,
-      const char* stop_words_path);
+Jieba NewJieba(const char* user_dict);
 void FreeJieba(Jieba);
 
 char** Cut(Jieba handle, const char* sentence, int is_hmm_used);
