@@ -4,6 +4,7 @@ Fork of [github.com/yanyiwu/gojieba](https://github.com/yanyiwu/gojieba).
 
 - Embed dictionaries into executable.
 - gojieba.NewJieba(userDictData...) accepts only user dictionary content.
+- Add `jieba` command. `go get -v github.com/caiguanhao/gojieba/cmd/jieba@master`
 
 ```go
 package main
